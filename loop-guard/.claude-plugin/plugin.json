@@ -1,0 +1,10 @@
+{
+  "name": "loop-guard",
+  "version": "0.1.0",
+  "description": "Stops Claude when it repeats a failing command or rewrites the same file in a loop",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

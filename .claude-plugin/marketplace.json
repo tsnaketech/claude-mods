@@ -1,0 +1,59 @@
+{
+  "name": "claude-mods",
+  "description": "Claude Code mods: usage bar with forecast, safety guards, YAML prompt shortcuts, context guard, model router and notifications.",
+  "owner": {
+    "name": "tsnaketech"
+  },
+  "plugins": [
+    {
+      "name": "bash-guard",
+      "source": "./bash-guard",
+      "description": "Blocks destructive Bash commands and asks before risky ones"
+    },
+    {
+      "name": "context-guard",
+      "source": "./context-guard",
+      "description": "Warns when the context passes 80% and offers to compact"
+    },
+    {
+      "name": "focus-mode",
+      "source": "./focus-mode",
+      "description": "/focus-dir <dir> restricts Claude's file edits to one folder"
+    },
+    {
+      "name": "loop-guard",
+      "source": "./loop-guard",
+      "description": "Stops Claude when it repeats a failing command or rewrites the same file in a loop"
+    },
+    {
+      "name": "model-router",
+      "source": "./model-router",
+      "description": "Sends short questions to a lighter model to save quota"
+    },
+    {
+      "name": "prompt-shortcuts",
+      "source": "./prompt-shortcuts",
+      "description": "Slash-command shortcuts for prompts you type often"
+    },
+    {
+      "name": "secret-guard",
+      "source": "./secret-guard",
+      "description": "Blocks access to secret files and asks before commands that print secrets"
+    },
+    {
+      "name": "sound-events",
+      "source": "./sound-events",
+      "description": "Notifies (bell or desktop) when a command is blocked or a question waits for you"
+    },
+    {
+      "name": "token-usage",
+      "source": "./token-usage",
+      "description": "Band above the prompt showing 5-hour and weekly rate-limit usage"
+    },
+    {
+      "name": "turn-notify",
+      "source": "./turn-notify",
+      "description": "Desktop notification when a long turn finishes"
+    }
+  ]
+}

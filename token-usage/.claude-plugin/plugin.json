@@ -1,0 +1,11 @@
+{
+  "name": "token-usage",
+  "version": "0.1.0",
+  "description": "Band above the prompt showing 5-hour and weekly rate-limit usage",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

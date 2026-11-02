@@ -1,0 +1,10 @@
+{
+  "name": "secret-guard",
+  "version": "0.1.0",
+  "description": "Blocks access to secret files and asks before commands that print secrets",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

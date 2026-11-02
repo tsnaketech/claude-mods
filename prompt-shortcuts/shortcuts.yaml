@@ -1,0 +1,22 @@
+# Prompt shortcuts: each top-level key becomes a slash command (/<name>).
+# `{args}` is replaced by what you type after the command.
+# New or renamed commands appear after a restart; prompt edits apply right away.
+# A project can add or override shortcuts in <project>/.claude/shortcuts.yaml (same format).
+
+p-review:
+  description: Review the recent changes and fix the problems found
+  prompt: Review the changes you just made {args}. List real bugs and risks, then fix them.
+
+p-tests:
+  description: Write tests for the given code
+  prompt: Write focused tests for {args}, following the existing test style, and run them.
+
+p-explain:
+  description: Explain code simply
+  prompt: |
+    Explain {args} simply: what it does, how, and why.
+    Keep it short, with an example.
+
+p-fix:
+  description: Find the root cause of a bug and fix it
+  prompt: Find the root cause of this bug and fix it, then verify: {args}

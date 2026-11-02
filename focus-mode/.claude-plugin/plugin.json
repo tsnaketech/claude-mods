@@ -1,0 +1,11 @@
+{
+  "name": "focus-mode",
+  "version": "0.1.0",
+  "description": "/focus-dir <dir> restricts Claude's file edits to one folder",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

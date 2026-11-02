@@ -1,0 +1,5 @@
+# Written by the Claude Code engine for the editor
+*/.claude-plugin/types/
+.DS_Store
+*.log
+.mcpb-cache/

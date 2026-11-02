@@ -1,0 +1,10 @@
+{
+  "name": "context-guard",
+  "version": "0.1.0",
+  "description": "Warns when the context passes 80% and offers to compact",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

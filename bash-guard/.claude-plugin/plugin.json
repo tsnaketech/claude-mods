@@ -1,0 +1,10 @@
+{
+  "name": "bash-guard",
+  "version": "0.1.0",
+  "description": "Blocks destructive Bash commands and asks before risky ones",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

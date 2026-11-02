@@ -1,0 +1,10 @@
+{
+  "name": "sound-events",
+  "version": "0.1.0",
+  "description": "Notifies (bell or desktop) when a command is blocked or a question waits for you",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}
