@@ -66,7 +66,8 @@ export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'token-usage',
-      description: 'Show/hide 5-hour and weekly usage under the prompt',
+      description: 'Show/hide 5-hour and weekly usage under the prompt (/token-usage refresh re-reads it)',
+      argumentHint: '[refresh]',
     })
     const ran = await next(e)
     const usage = await $.session.usage()
@@ -84,7 +85,16 @@ export const register: Register = on => {
     return next(e)
   })
 
-  on('command.run', { command: 'token-usage' }, async $ => {
+  on('command.run', { command: 'token-usage' }, async ($, e) => {
+    if (e.args.trim() === 'refresh') {
+      // Limits only arrive on an API response, so send the smallest one possible.
+      const r = await $.model.complete({ model: 'haiku', prompt: '.', maxTokens: 1 })
+      if (!r.isAnswered && r.reason === 'api-error') return { text: `Refresh failed: ${r.error}` }
+      const { rateLimits } = await $.session.usage()
+      await update($, limits, () => rateLimits)
+      await record($, rateLimits)
+      return { text: 'Usage refreshed.' }
+    }
     const hidden = await update($, isHidden, v => !v)
     return { text: hidden ? 'Usage line hidden.' : 'Usage line shown.' }
   })

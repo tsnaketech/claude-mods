@@ -36,6 +36,25 @@ test('both windows side by side under the prompt', async ($, on) => {
   await ui.unmount()
 })
 
+test('/token-usage refresh pings the API then redraws the new figures', async ($, on) => {
+  let pct = 10
+  let pinged = 0
+  on('command.register', () => ({ value: { command: 'token-usage' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('clock.now', () => ({ value: 0 }))
+  on('model.complete', () => ((pinged += 1), (pct = 55), ({ value: { isAnswered: true, text: '.', usage: {} } as never })))
+  on('session.usage', () => ({
+    value: { startedAt: 0, context: { window: 200000 }, rateLimits: [{ kind: 'five_hour', percentUsed: pct }] },
+  }))
+  await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
+  const r = await $.command.run({ command: 'token-usage', args: 'refresh' } as Parameters<typeof $.command.run>[0])
+  expect(r.text).toBe('Usage refreshed.')
+  expect(pinged).toBe(1)
+  const ui = await $.ui.mount({ ...HINT, surface: 'terminal' })
+  expect(await ui.find({ type: 'Text', text: /55%/ })).toBeDefined()
+  await ui.unmount()
+})
+
 test('a window past its reset shows as waiting', async ($, on) => {
   on('command.register', () => ({ value: { command: 'token-usage' } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
