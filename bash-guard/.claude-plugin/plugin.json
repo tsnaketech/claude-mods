@@ -2,6 +2,7 @@
   "name": "bash-guard",
   "version": "0.1.0",
   "description": "Blocks destructive Bash commands and asks before risky ones",
+  "types": "./types/index.d.ts",
   "author": {
     "name": "tsnaketech"
   },

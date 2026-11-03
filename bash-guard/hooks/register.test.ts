@@ -23,6 +23,17 @@ test('rules', () => {
     expect(match(CONFIRM, c)).toBeUndefined()
 })
 
+test('/bash-guard off lets commands through, on brings the guard back', async ($, on) => {
+  let ran = 0
+  on('tool.call', { tool: 'Bash' }, () => ((ran += 1), { result: {} }))
+  await $.command.run({ command: 'bash-guard', args: 'off' } as Parameters<typeof $.command.run>[0])
+  await $.tool.call({ tool: 'Bash', command: 'git reset --hard' })
+  expect(ran).toBe(1)
+  await $.command.run({ command: 'bash-guard', args: 'on' } as Parameters<typeof $.command.run>[0])
+  expect((await $.tool.call({ tool: 'Bash', command: 'mkfs.ext4 /dev/sda1' })).deny).toContain('blocked')
+  expect(ran).toBe(1)
+})
+
 test('blocked command never runs', async ($, on) => {
   let ran = false
   on('tool.call', () => ((ran = true), { result: {} }))
