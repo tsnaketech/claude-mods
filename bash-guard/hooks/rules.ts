@@ -10,8 +10,10 @@ export const BLOCK: [RegExp, string][] = [
 ]
 
 // Asks you first.
+const RM: [RegExp, string] = [/\brm\s+(-\w*\s+)*-\w*[rRf]/, 'rm -r / -f']
+
 export const CONFIRM: [RegExp, string][] = [
-  [/\brm\s+(-\w*\s+)*-\w*[rRf]/, 'rm -r / -f'],
+  RM,
   [/\bgit\s+push\b.*(--force\b|--force-with-lease\b|\s-f\b)/, 'force push'],
   [/\bgit\s+reset\s+--hard\b/, 'git reset --hard'],
   [/\bgit\s+clean\s+-\w*f/, 'git clean -f'],
@@ -24,5 +26,27 @@ export const CONFIRM: [RegExp, string][] = [
   [/\bsudo\b/, 'runs as root'],
 ]
 
+// rm -r / -f runs without asking when every target is inside one of these paths.
+export const SAFE_RM: RegExp[] = [
+  /(^|\/)node_modules(\/|$)/, // any node_modules folder
+  /^\/tmp\/claude-\d+\//, // Claude's scratchpad and temp files
+]
+
+// Every rm in the command targets only SAFE_RM paths. `..`, `~`, `$` and backticks are refused so a path can't escape.
+export const safeRm = (command: string) => {
+  const rms = command.split(/&&|\|\||[;|\n]/).filter(part => RM[0].test(part))
+  return rms.length > 0 && rms.every(part => {
+    const words = part.trim().split(/\s+/)
+    const targets = words
+      .slice(words.indexOf('rm') + 1)
+      .filter(w => !w.startsWith('-'))
+      .map(w => w.replace(/^['"]|['"]$/g, ''))
+    return targets.length > 0 && targets.every(t => !/\.\.|[~$`]/.test(t) && SAFE_RM.some(re => re.test(t)))
+  })
+}
+
 export const match = (rules: [RegExp, string][], command: string) =>
   rules.find(([re]) => re.test(command))?.[1]
+
+// The CONFIRM reason for this command, minus the rm rule when every rm is in a safe path.
+export const risk = (command: string) => match(safeRm(command) ? CONFIRM.filter(r => r !== RM) : CONFIRM, command)

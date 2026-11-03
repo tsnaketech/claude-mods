@@ -1,5 +1,15 @@
 import { expect, test } from 'claude-code/testing'
-import { BLOCK, CONFIRM, match } from './rules'
+import { BLOCK, CONFIRM, match, risk } from './rules'
+
+test('rm in safe paths skips the question', () => {
+  for (const c of ['rm -rf node_modules', 'rm -rf ./web/node_modules', 'cd app && rm -rf node_modules dist/node_modules',
+    'rm -rf /tmp/claude-1000/x/scratchpad/out', "rm -rf '/tmp/claude-1000/a'"])
+    expect(risk(c)).toBeUndefined()
+  for (const c of ['rm -rf node_modules src', 'rm -rf node_modules/../..', 'rm -rf $DIR/node_modules',
+    'rm -rf /tmp/claude-1000/../../etc', 'rm -rf /tmp/other', 'rm -rf node_modules; rm -rf src',
+    'sudo rm -rf node_modules', 'rm -rf node_modules && git reset --hard', 'rm -rf "`pwd`/node_modules"'])
+    expect(risk(c)).toBeDefined()
+})
 
 test('rules', () => {
   for (const c of ['rm -rf /', 'rm -rf ~', 'sudo rm -fr / ', 'mkfs.ext4 /dev/sda1', 'dd if=x of=/dev/sda'])

@@ -1,6 +1,6 @@
 import type { Register } from 'claude-code'
 
-import { BLOCK, CONFIRM, match } from './rules'
+import { BLOCK, match, risk } from './rules'
 
 const RUN = 'Run it'
 
@@ -9,7 +9,7 @@ export const register: Register = on => {
     const blocked = match(BLOCK, e.command)
     if (blocked) return { deny: `bash-guard: blocked (${blocked}). Ask the user to run it themselves if intended.` }
 
-    const risky = match(CONFIRM, e.command)
+    const risky = risk(e.command)
     if (!risky) return next(e)
 
     const short = e.command.length > 120 ? `${e.command.slice(0, 120)}…` : e.command
