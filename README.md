@@ -16,6 +16,12 @@ Mods for [Claude Code](https://claude.com/claude-code): small hooks modules that
 | **prompt-shortcuts** | Slash commands for prompts you type often, defined in YAML (`/p-review`, `/p-tests`, `/p-explain`, `/p-fix`). A project can add its own in `<project>/.claude/shortcuts.yaml`. |
 | **turn-notify** | Desktop notification when a turn takes longer than 2 minutes. |
 | **sound-events** | Notifies you (terminal bell or desktop notification, per your notification setting) when a question waits for you or an action is blocked. |
+| **budget-guard** | Asks before spawning subagents when the 5-hour window is above 80%; once you say go, quiet until that window resets. |
+| **handoff-guard** | At 70% context, offers to write a `HANDOFF.md` (via `claude-mem:handoff`) before the session gets summarized. |
+| **where** | `/where`: tasks in progress and next up from `docs/TASKS.md`, branch, changed files, unpushed commits, last commits. No tokens spent. |
+| **job-notify** | Desktop notification when a background task (build, render) finishes or fails. |
+| **paste-dedupe** | Asks before sending the same long prompt (200+ characters) twice in a row. |
+| **prompt-improve** | A `✨ Improve prompt` button above the prompt once you type a draft (click it, or ctrl+x tab then `i`), and `/improve <prompt>`: Sonnet rewrites the draft in the box for you to review before sending. |
 
 ## Install
 

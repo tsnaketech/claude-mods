@@ -1,0 +1,10 @@
+{
+  "name": "paste-dedupe",
+  "version": "0.1.0",
+  "description": "Asks before sending the same long prompt twice in a row",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

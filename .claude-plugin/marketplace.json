@@ -54,6 +54,36 @@
       "name": "turn-notify",
       "source": "./turn-notify",
       "description": "Desktop notification when a long turn finishes"
+    },
+    {
+      "name": "budget-guard",
+      "source": "./budget-guard",
+      "description": "Asks before spawning subagents when the 5-hour usage window is above 80%"
+    },
+    {
+      "name": "handoff-guard",
+      "source": "./handoff-guard",
+      "description": "Offers to write a HANDOFF.md when the context passes 70%, before it gets summarized"
+    },
+    {
+      "name": "where",
+      "source": "./where",
+      "description": "/where: current tasks from docs/TASKS.md and the git state, without spending tokens"
+    },
+    {
+      "name": "job-notify",
+      "source": "./job-notify",
+      "description": "Desktop notification when a background task (build, render) finishes"
+    },
+    {
+      "name": "paste-dedupe",
+      "source": "./paste-dedupe",
+      "description": "Asks before sending the same long prompt twice in a row"
+    },
+    {
+      "name": "prompt-improve",
+      "source": "./prompt-improve",
+      "description": "A button above the prompt (and /improve) that rewrites your draft into a clearer prompt"
     }
   ]
 }

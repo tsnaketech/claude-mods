@@ -1,0 +1,10 @@
+{
+  "name": "handoff-guard",
+  "version": "0.1.0",
+  "description": "Offers to write a HANDOFF.md when the context passes 70%, before it gets summarized",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

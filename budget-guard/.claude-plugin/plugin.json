@@ -1,0 +1,10 @@
+{
+  "name": "budget-guard",
+  "version": "0.1.0",
+  "description": "Asks before spawning subagents when the 5-hour usage window is above 80%",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

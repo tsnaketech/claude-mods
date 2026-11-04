@@ -1,0 +1,10 @@
+{
+  "name": "job-notify",
+  "version": "0.1.0",
+  "description": "Desktop notification when a background task (build, render) finishes",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "where",
+  "version": "0.1.0",
+  "description": "/where: current tasks from docs/TASKS.md and the git state, without spending tokens",
+  "author": {
+    "name": "tsnaketech"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/tsnaketech/claude-mods"
+}
