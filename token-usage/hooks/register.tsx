@@ -1,9 +1,12 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { Limit, Limits, Sample, Samples } from '../types'
+import type { Context, Limit, Limits, Sample, Samples } from '../types'
 
 const limits = atom({ plugin: 'token-usage', key: 'limits' } as const, [] as Limits)
+const context = atom({ plugin: 'token-usage', key: 'context' } as const, null as Context)
+
+export const kTokens = (n: number) => (n >= 1000 ? `${Math.round(n / 1000)}k` : String(n))
 const isHidden = atom({ plugin: 'token-usage', key: 'isHidden' } as const, false)
 const samples = atom({ plugin: 'token-usage', key: 'samples' } as const, {} as Samples)
 
@@ -72,6 +75,7 @@ export const register: Register = on => {
     const ran = await next(e)
     const usage = await $.session.usage()
     await update($, limits, () => usage.rateLimits)
+    await update($, context, () => usage.context)
     await record($, usage.rateLimits)
     $.clock.every(60_000, () => void update($, tick, n => n + 1))
     return ran
@@ -82,6 +86,7 @@ export const register: Register = on => {
       await update($, limits, () => e.rateLimits)
       await record($, e.rateLimits)
     }
+    if (e.changed.includes('context')) await update($, context, () => e.context)
     return next(e)
   })
 
@@ -106,10 +111,11 @@ export const register: Register = on => {
     const known = (await read($, limits)).filter((l: Limit) => LABELS[l.kind])
     const now = await $.clock.now()
     const history = await read($, samples)
+    const ctx = await read($, context)
     const { Box, Text } = $.ui.resolve(e)
     return (
       <Box flexDirection="row">
-        {known.length === 0 && <Text dimColor>Usage: waiting for the first response</Text>}
+        {known.length === 0 && !ctx?.percent && <Text dimColor>Usage: waiting for the first response</Text>}
         {known.map((l: Limit, i: number) =>
           isStale(l, now) ? (
             // The window reset since the last response: its old figure no longer holds.
@@ -127,6 +133,13 @@ export const register: Register = on => {
               )}
             </Text>
           ),
+        )}
+        {ctx?.percent !== undefined && (
+          <Text>
+            <Text dimColor>{known.length > 0 ? '   │   ' : ''}Ctx </Text>
+            <Text color={color(ctx.percent)}>{bar(ctx.percent)} {ctx.percent}%</Text>
+            <Text dimColor>{ctx.tokens !== undefined ? ` · ${kTokens(ctx.tokens)}/${kTokens(ctx.window)}` : ''}</Text>
+          </Text>
         )}
         <Text dimColor>{'   '}{e.props.hint}</Text>
       </Box>

@@ -21,7 +21,7 @@ test('both windows side by side under the prompt', async ($, on) => {
   on('session.usage', () => ({
     value: {
       startedAt: 0,
-      context: { window: 200000 },
+      context: { window: 200000, tokens: 76400, percent: 38 },
       rateLimits: [
         { kind: 'five_hour', percentUsed: 42, resetsAt: new Date(90 * 60000).toISOString() },
         { kind: 'seven_day', percentUsed: 91.5 },
@@ -32,6 +32,7 @@ test('both windows side by side under the prompt', async ($, on) => {
   const ui = await $.ui.mount({ ...HINT, surface: 'terminal' })
   expect((await ui.find({ type: 'Text', text: /42%/ }))?.text).toBe('5h ████░░░░░░ 42% · resets in 1h30')
   expect((await ui.find({ type: 'Text', text: /91.5%/ }))?.text).toContain('Week █████████░ 91.5%')
+  expect((await ui.find({ type: 'Text', text: /Ctx/ }))?.text).toBe('   │   Ctx ████░░░░░░ 38% · 76k/200k')
   expect((await ui.find({ type: 'Text', text: /shortcuts/ }))?.text).toContain('? for shortcuts')
   await ui.unmount()
 })

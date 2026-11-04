@@ -6,7 +6,7 @@ Mods for [Claude Code](https://claude.com/claude-code): small hooks modules that
 
 | Mod | What it does |
 | --- | --- |
-| **token-usage** | Shows 5-hour and weekly usage under the prompt, side by side, in color (green / yellow ≥ 70% / red ≥ 90%), with the time until reset and a forecast (`full in ~45m`) when your pace would hit the limit first. `/token-usage` shows or hides it; `/token-usage refresh` re-reads it now (one 1-token Haiku call). |
+| **token-usage** | Shows 5-hour and weekly usage under the prompt, side by side, in color (green / yellow ≥ 70% / red ≥ 90%), with the time until reset and a forecast (`full in ~45m`) when your pace would hit the limit first, then the context fill (`Ctx ████░░ 38% · 76k/200k`). `/token-usage` shows or hides it; `/token-usage refresh` re-reads it now (one 1-token Haiku call). |
 | **bash-guard** | Refuses destructive Bash commands (`rm -rf /`, `mkfs`, `dd` to a disk, fork bombs) and asks before risky ones (`rm -rf`, `git push --force`, `git reset --hard`, `DROP TABLE`, `curl … \| sh`, `sudo`…). `rm -rf` inside `node_modules` or Claude's `/tmp/claude-<uid>/` runs without asking (`SAFE_RM`). `/bash-guard off` turns it off, `/bash-guard on` back. Rules live in `bash-guard/hooks/rules.ts`. |
 | **secret-guard** | Refuses reading or writing secret files (`.env`, SSH keys, `*.pem`, `~/.aws/`, `~/.kube/config`…; `.env.example` stays allowed) and asks before commands that may print secrets (`printenv`, `echo $…_TOKEN`). |
 | **focus-mode** | `/focus-dir src/api` limits Claude's file edits to one folder; `/focus-dir off` lifts it. |
