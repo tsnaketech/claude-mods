@@ -37,6 +37,28 @@ test('both windows side by side under the prompt', async ($, on) => {
   await ui.unmount()
 })
 
+test('only the 5-hour window gets a "full in" forecast, never the week', async ($, on) => {
+  let now = 0
+  let pct = 10
+  const limits = () => [
+    { kind: 'five_hour', percentUsed: pct, resetsAt: new Date(300 * 60000).toISOString() },
+    { kind: 'seven_day', percentUsed: pct, resetsAt: new Date(5 * 1440 * 60000).toISOString() },
+  ]
+  on('command.register', () => ({ value: { command: 'token-usage' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('clock.now', () => ({ value: now }))
+  on('session.usage', () => ({ value: { startedAt: 0, context: { window: 200000 }, rateLimits: limits() } }))
+  on('session.measure', (_, e) => ({ changed: e.changed }))
+  await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
+  now = 30 * 60000
+  pct = 50
+  await $.session.measure({ context: { window: 200000 }, rateLimits: limits(), changed: ['rateLimits'] } as never)
+  const ui = await $.ui.mount({ ...HINT, surface: 'terminal' })
+  expect((await ui.find({ type: 'Text', text: /^5h/ }))?.text).toContain('full in')
+  expect((await ui.find({ type: 'Text', text: /Week/ }))?.text).not.toContain('full in')
+  await ui.unmount()
+})
+
 test('/token-usage refresh pings the API then redraws the new figures', async ($, on) => {
   let pct = 10
   let pinged = 0

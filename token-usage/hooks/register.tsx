@@ -38,9 +38,8 @@ export const resetIn = (iso: string | undefined, now: number) => {
   return d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`
 }
 
-// How far back the burn rate looks, per window.
-const HORIZON: Record<string, number> = { five_hour: 60 * 60000, seven_day: 24 * 60 * 60000 }
-
+// How far back the burn rate looks, per window. Only these windows get a forecast (the weekly one has none).
+const HORIZON: Record<string, number> = { five_hour: 60 * 60000 }
 // Keep readings of the current window only, within its horizon.
 export const addSample = (list: Sample[], s: Sample, horizon: number) => {
   const last = list[list.length - 1]
@@ -129,7 +128,7 @@ export const register: Register = on => {
               <Text color={color(l.percentUsed)}>{bar(l.percentUsed)} {l.percentUsed}%</Text>
               <Text dimColor>{l.resetsAt ? ` · resets in ${resetIn(l.resetsAt, now)}` : ''}</Text>
               {(at => (at === undefined ? null : <Text color="yellow">{` · full in ~${resetIn(new Date(at).toISOString(), now)}`}</Text>))(
-                fullIn(history[l.kind] ?? [], l, now),
+                HORIZON[l.kind] ? fullIn(history[l.kind] ?? [], l, now) : undefined,
               )}
             </Text>
           ),
