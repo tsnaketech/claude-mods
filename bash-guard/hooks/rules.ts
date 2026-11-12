@@ -50,3 +50,7 @@ export const match = (rules: [RegExp, string][], command: string) =>
 
 // The CONFIRM reason for this command, minus the rm rule when every rm is in a safe path.
 export const risk = (command: string) => match(safeRm(command) ? CONFIRM.filter(r => r !== RM) : CONFIRM, command)
+
+// `dir` is one of `roots` or inside one.
+export const isUnder = (dir: string, roots: readonly string[]) =>
+  roots.some(r => dir === r || dir.startsWith(r.endsWith('/') ? r : `${r}/`))

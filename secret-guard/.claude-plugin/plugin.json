@@ -1,6 +1,7 @@
 {
   "name": "secret-guard",
   "version": "0.1.0",
+  "types": "./types/index.d.ts",
   "description": "Blocks access to secret files and asks before commands that print secrets",
   "author": {
     "name": "tsnaketech"

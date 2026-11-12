@@ -1,7 +1,7 @@
-export type IsOff = boolean
+export type IsOn = boolean
 
 declare module 'claude-code' {
   interface PluginState {
-    'bash-guard': { isOff: IsOff }
+    'bash-guard': { isOn: IsOn }
   }
 }
